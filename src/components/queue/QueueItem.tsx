@@ -77,7 +77,10 @@ export function QueueItem({
 				className="font-pixel text-[10px] text-[var(--px-text-secondary)] w-6 text-right"
 				style={
 					numberChanged
-						? { animation: "pixel-slide-down 200ms var(--ease-pixel-spring) both" }
+						? {
+								animation:
+									"pixel-slide-down 200ms var(--ease-pixel-spring) both",
+							}
 						: undefined
 				}
 			>

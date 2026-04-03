@@ -1,8 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PixelLink } from "../components/ui/link";
 import {
-	usePixelTheme,
 	type PixelTheme,
+	usePixelTheme,
 } from "../components/ui/pixel-theme-provider";
 
 export const Route = createFileRoute("/settings")({

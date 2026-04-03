@@ -1,5 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Button } from "../components/ui/button";
 import { PixelLink } from "../components/ui/link";
 import { useAuth } from "../hooks/useAuth";
 
