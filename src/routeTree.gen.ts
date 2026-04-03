@@ -14,6 +14,8 @@ import { Route as RegisterRouteImport } from './routes/register'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as GroupsIndexRouteImport } from './routes/groups/index'
+import { Route as JoinCodeRouteImport } from './routes/join/$code'
+import { Route as GroupsGroupIdRouteImport } from './routes/groups/$groupId'
 
 const UiShowcaseRoute = UiShowcaseRouteImport.update({
   id: '/ui-showcase',
@@ -40,12 +42,24 @@ const GroupsIndexRoute = GroupsIndexRouteImport.update({
   path: '/groups/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const JoinCodeRoute = JoinCodeRouteImport.update({
+  id: '/join/$code',
+  path: '/join/$code',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GroupsGroupIdRoute = GroupsGroupIdRouteImport.update({
+  id: '/groups/$groupId',
+  path: '/groups/$groupId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
   '/ui-showcase': typeof UiShowcaseRoute
+  '/groups/$groupId': typeof GroupsGroupIdRoute
+  '/join/$code': typeof JoinCodeRoute
   '/groups/': typeof GroupsIndexRoute
 }
 export interface FileRoutesByTo {
@@ -53,6 +67,8 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
   '/ui-showcase': typeof UiShowcaseRoute
+  '/groups/$groupId': typeof GroupsGroupIdRoute
+  '/join/$code': typeof JoinCodeRoute
   '/groups': typeof GroupsIndexRoute
 }
 export interface FileRoutesById {
@@ -61,14 +77,38 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
   '/ui-showcase': typeof UiShowcaseRoute
+  '/groups/$groupId': typeof GroupsGroupIdRoute
+  '/join/$code': typeof JoinCodeRoute
   '/groups/': typeof GroupsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/login' | '/register' | '/ui-showcase' | '/groups/'
+  fullPaths:
+    | '/'
+    | '/login'
+    | '/register'
+    | '/ui-showcase'
+    | '/groups/$groupId'
+    | '/join/$code'
+    | '/groups/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '/register' | '/ui-showcase' | '/groups'
-  id: '__root__' | '/' | '/login' | '/register' | '/ui-showcase' | '/groups/'
+  to:
+    | '/'
+    | '/login'
+    | '/register'
+    | '/ui-showcase'
+    | '/groups/$groupId'
+    | '/join/$code'
+    | '/groups'
+  id:
+    | '__root__'
+    | '/'
+    | '/login'
+    | '/register'
+    | '/ui-showcase'
+    | '/groups/$groupId'
+    | '/join/$code'
+    | '/groups/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -76,6 +116,8 @@ export interface RootRouteChildren {
   LoginRoute: typeof LoginRoute
   RegisterRoute: typeof RegisterRoute
   UiShowcaseRoute: typeof UiShowcaseRoute
+  GroupsGroupIdRoute: typeof GroupsGroupIdRoute
+  JoinCodeRoute: typeof JoinCodeRoute
   GroupsIndexRoute: typeof GroupsIndexRoute
 }
 
@@ -116,6 +158,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GroupsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/join/$code': {
+      id: '/join/$code'
+      path: '/join/$code'
+      fullPath: '/join/$code'
+      preLoaderRoute: typeof JoinCodeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/groups/$groupId': {
+      id: '/groups/$groupId'
+      path: '/groups/$groupId'
+      fullPath: '/groups/$groupId'
+      preLoaderRoute: typeof GroupsGroupIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -124,6 +180,8 @@ const rootRouteChildren: RootRouteChildren = {
   LoginRoute: LoginRoute,
   RegisterRoute: RegisterRoute,
   UiShowcaseRoute: UiShowcaseRoute,
+  GroupsGroupIdRoute: GroupsGroupIdRoute,
+  JoinCodeRoute: JoinCodeRoute,
   GroupsIndexRoute: GroupsIndexRoute,
 }
 export const routeTree = rootRouteImport
