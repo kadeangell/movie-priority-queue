@@ -50,6 +50,9 @@ function GroupsPage() {
 					</div>
 					<div className="flex gap-2">
 						<CreateGroupDialog />
+						<PixelLink to="/settings" variant="nav">
+							Settings
+						</PixelLink>
 						<Button variant="ghost" size="sm" onClick={handleLogout}>
 							Logout
 						</Button>

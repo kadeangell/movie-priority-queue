@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as UiShowcaseRouteImport } from './routes/ui-showcase'
+import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as RegisterRouteImport } from './routes/register'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as IndexRouteImport } from './routes/index'
@@ -20,6 +21,11 @@ import { Route as GroupsGroupIdRouteImport } from './routes/groups/$groupId'
 const UiShowcaseRoute = UiShowcaseRouteImport.update({
   id: '/ui-showcase',
   path: '/ui-showcase',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsRoute = SettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RegisterRoute = RegisterRouteImport.update({
@@ -57,6 +63,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/settings': typeof SettingsRoute
   '/ui-showcase': typeof UiShowcaseRoute
   '/groups/$groupId': typeof GroupsGroupIdRoute
   '/join/$code': typeof JoinCodeRoute
@@ -66,6 +73,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/settings': typeof SettingsRoute
   '/ui-showcase': typeof UiShowcaseRoute
   '/groups/$groupId': typeof GroupsGroupIdRoute
   '/join/$code': typeof JoinCodeRoute
@@ -76,6 +84,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/settings': typeof SettingsRoute
   '/ui-showcase': typeof UiShowcaseRoute
   '/groups/$groupId': typeof GroupsGroupIdRoute
   '/join/$code': typeof JoinCodeRoute
@@ -87,6 +96,7 @@ export interface FileRouteTypes {
     | '/'
     | '/login'
     | '/register'
+    | '/settings'
     | '/ui-showcase'
     | '/groups/$groupId'
     | '/join/$code'
@@ -96,6 +106,7 @@ export interface FileRouteTypes {
     | '/'
     | '/login'
     | '/register'
+    | '/settings'
     | '/ui-showcase'
     | '/groups/$groupId'
     | '/join/$code'
@@ -105,6 +116,7 @@ export interface FileRouteTypes {
     | '/'
     | '/login'
     | '/register'
+    | '/settings'
     | '/ui-showcase'
     | '/groups/$groupId'
     | '/join/$code'
@@ -115,6 +127,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   LoginRoute: typeof LoginRoute
   RegisterRoute: typeof RegisterRoute
+  SettingsRoute: typeof SettingsRoute
   UiShowcaseRoute: typeof UiShowcaseRoute
   GroupsGroupIdRoute: typeof GroupsGroupIdRoute
   JoinCodeRoute: typeof JoinCodeRoute
@@ -128,6 +141,13 @@ declare module '@tanstack/react-router' {
       path: '/ui-showcase'
       fullPath: '/ui-showcase'
       preLoaderRoute: typeof UiShowcaseRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/register': {
@@ -179,6 +199,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   LoginRoute: LoginRoute,
   RegisterRoute: RegisterRoute,
+  SettingsRoute: SettingsRoute,
   UiShowcaseRoute: UiShowcaseRoute,
   GroupsGroupIdRoute: GroupsGroupIdRoute,
   JoinCodeRoute: JoinCodeRoute,
