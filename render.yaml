@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: movie-priority-queue
+    runtime: node
+    plan: free
+    buildCommand: pnpm install --frozen-lockfile && pnpm build
+    startCommand: node server-entry.mjs
+    nodeVersion: "22"
+    healthCheckPath: /
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: SESSION_SECRET
+        sync: false
+      - key: TMDB_API_KEY
+        sync: false
+      - key: WEBAUTHN_RP_NAME
+        value: Movie Priority Queue
+      - key: WEBAUTHN_RP_ID
+        sync: false
+      - key: WEBAUTHN_ORIGIN
+        sync: false
