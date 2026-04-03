@@ -1,10 +1,18 @@
 import { createServer } from "node:http";
 import { Readable } from "node:stream";
+import sirv from "sirv";
 
 const port = parseInt(process.env.PORT || "3000", 10);
 
 const app = await import("./dist/server/server.js");
 const server = app.default;
+
+// Serve static assets from dist/client with immutable caching
+const serveStatic = sirv("dist/client", {
+	maxAge: 31536000,
+	immutable: true,
+	dotfiles: false,
+});
 
 function toNodeReadable(webReadable) {
 	const reader = webReadable.getReader();
@@ -20,7 +28,7 @@ function toNodeReadable(webReadable) {
 	});
 }
 
-const httpServer = createServer(async (req, res) => {
+async function handleSSR(req, res) {
 	const protocol = req.headers["x-forwarded-proto"] || "http";
 	const host =
 		req.headers["x-forwarded-host"] || req.headers.host || "localhost";
@@ -68,6 +76,11 @@ const httpServer = createServer(async (req, res) => {
 		res.writeHead(500);
 		res.end("Internal Server Error");
 	}
+}
+
+const httpServer = createServer((req, res) => {
+	// Try static files first, fall through to SSR
+	serveStatic(req, res, () => handleSSR(req, res));
 });
 
 httpServer.listen(port, "0.0.0.0", () => {
