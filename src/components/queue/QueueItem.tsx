@@ -73,16 +73,13 @@ export function QueueItem({
 
 			{/* Position number */}
 			<span
-				className="font-pixel text-[10px] w-6 text-right"
-				style={{
-					color: numberChanged
-						? "var(--px-text-accent)"
-						: "var(--px-text-secondary)",
-					animation: numberChanged
-						? "pixel-pop-in 300ms var(--ease-pixel-spring)"
-						: undefined,
-					transition: "color 300ms",
-				}}
+				key={numberChanged ? `n-${index}` : undefined}
+				className="font-pixel text-[10px] text-[var(--px-text-secondary)] w-6 text-right"
+				style={
+					numberChanged
+						? { animation: "pixel-slide-down 200ms var(--ease-pixel-spring) both" }
+						: undefined
+				}
 			>
 				{index + 1}
 			</span>
