@@ -1,37 +1,37 @@
 /* Dungeon — Pokemon caves, FF crystal caverns, Golden Sun Sol Sanctum */
 
 :root[data-pixel-theme="dungeon"] {
-  /* Surface / Background */
-  --px-bg-base: #1a1028;
-  --px-bg-panel: #2a2040;
-  --px-bg-panel-alt: #221838;
-  --px-bg-inset: #181020;
+	/* Surface / Background */
+	--px-bg-base: #1a1028;
+	--px-bg-panel: #2a2040;
+	--px-bg-panel-alt: #221838;
+	--px-bg-inset: #181020;
 
-  /* Borders */
-  --px-border-outer: #0a0810;
-  --px-border-mid: #483868;
-  --px-border-inner: #7868a0;
-  --px-border-shadow: #100818;
+	/* Borders */
+	--px-border-outer: #0a0810;
+	--px-border-mid: #483868;
+	--px-border-inner: #7868a0;
+	--px-border-shadow: #100818;
 
-  /* Text */
-  --px-text-primary: #d0c8e0;
-  --px-text-secondary: #9088a8;
-  --px-text-accent: #70d8b8;
-  --px-text-disabled: #584878;
+	/* Text */
+	--px-text-primary: #d0c8e0;
+	--px-text-secondary: #9088a8;
+	--px-text-accent: #70d8b8;
+	--px-text-disabled: #584878;
 
-  /* Interactive */
-  --px-btn-bg: #584880;
-  --px-btn-bg-hover: #685898;
-  --px-btn-bg-active: #483870;
-  --px-btn-text: #e0d8f0;
+	/* Interactive */
+	--px-btn-bg: #584880;
+	--px-btn-bg-hover: #685898;
+	--px-btn-bg-active: #483870;
+	--px-btn-text: #e0d8f0;
 
-  /* Status */
-  --px-status-hp: #c84848;
-  --px-status-mp: #7868d0;
-  --px-status-warning: #d8a030;
-  --px-status-info: #5898c0;
+	/* Status */
+	--px-status-hp: #c84848;
+	--px-status-mp: #7868d0;
+	--px-status-warning: #d8a030;
+	--px-status-info: #5898c0;
 
-  /* Accent */
-  --px-accent: #70d8b8;
-  --px-accent-glow: #a0f0d8;
+	/* Accent */
+	--px-accent: #70d8b8;
+	--px-accent-glow: #a0f0d8;
 }

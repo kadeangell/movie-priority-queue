@@ -1,18 +1,15 @@
+import { TanStackDevtools } from "@tanstack/react-devtools";
+import type { QueryClient } from "@tanstack/react-query";
 import {
+	createRootRouteWithContext,
 	HeadContent,
 	Scripts,
-	createRootRouteWithContext,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
-import { TanStackDevtools } from "@tanstack/react-devtools";
 import { PixelThemeProvider } from "../components/ui/pixel-theme-provider";
 import { TooltipProvider } from "../components/ui/tooltip";
-
 import TanStackQueryDevtools from "../integrations/tanstack-query/devtools";
-
 import appCss from "../styles.css?url";
-
-import type { QueryClient } from "@tanstack/react-query";
 
 interface MyRouterContext {
 	queryClient: QueryClient;
@@ -36,16 +33,12 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 	return (
 		<html lang="en" suppressHydrationWarning>
 			<head>
-				<script
-					dangerouslySetInnerHTML={{ __html: PIXEL_THEME_INIT_SCRIPT }}
-				/>
+				<script dangerouslySetInnerHTML={{ __html: PIXEL_THEME_INIT_SCRIPT }} />
 				<HeadContent />
 			</head>
 			<body>
 				<PixelThemeProvider>
-					<TooltipProvider delayDuration={150}>
-						{children}
-					</TooltipProvider>
+					<TooltipProvider delayDuration={150}>{children}</TooltipProvider>
 				</PixelThemeProvider>
 				<TanStackDevtools
 					config={{ position: "bottom-right" }}

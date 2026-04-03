@@ -1,37 +1,37 @@
 /* Overworld — Golden Sun world map, Pokemon routes, FF Tactics fields */
 
 :root[data-pixel-theme="overworld"] {
-  /* Surface / Background */
-  --px-bg-base: #88c870;
-  --px-bg-panel: #f0e8c8;
-  --px-bg-panel-alt: #e0d8b0;
-  --px-bg-inset: #d0c898;
+	/* Surface / Background */
+	--px-bg-base: #88c870;
+	--px-bg-panel: #f0e8c8;
+	--px-bg-panel-alt: #e0d8b0;
+	--px-bg-inset: #d0c898;
 
-  /* Borders */
-  --px-border-outer: #383030;
-  --px-border-mid: #685848;
-  --px-border-inner: #f8f0d8;
-  --px-border-shadow: #504838;
+	/* Borders */
+	--px-border-outer: #383030;
+	--px-border-mid: #685848;
+	--px-border-inner: #f8f0d8;
+	--px-border-shadow: #504838;
 
-  /* Text */
-  --px-text-primary: #282020;
-  --px-text-secondary: #585048;
-  --px-text-accent: #c83030;
-  --px-text-disabled: #a09888;
+	/* Text */
+	--px-text-primary: #282020;
+	--px-text-secondary: #585048;
+	--px-text-accent: #c83030;
+	--px-text-disabled: #a09888;
 
-  /* Interactive */
-  --px-btn-bg: #4878b8;
-  --px-btn-bg-hover: #5888c8;
-  --px-btn-bg-active: #3868a8;
-  --px-btn-text: #f8f0e0;
+	/* Interactive */
+	--px-btn-bg: #4878b8;
+	--px-btn-bg-hover: #5888c8;
+	--px-btn-bg-active: #3868a8;
+	--px-btn-text: #f8f0e0;
 
-  /* Status */
-  --px-status-hp: #48b048;
-  --px-status-mp: #5878d0;
-  --px-status-warning: #d8a020;
-  --px-status-info: #78b8d8;
+	/* Status */
+	--px-status-hp: #48b048;
+	--px-status-mp: #5878d0;
+	--px-status-warning: #d8a020;
+	--px-status-info: #78b8d8;
 
-  /* Accent */
-  --px-accent: #e8a828;
-  --px-accent-glow: #f8e870;
+	/* Accent */
+	--px-accent: #e8a828;
+	--px-accent-glow: #f8e870;
 }

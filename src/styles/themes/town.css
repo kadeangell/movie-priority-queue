@@ -1,37 +1,37 @@
 /* Town — Pokemon Centers, FF weapon shops, Fire Emblem armories */
 
 :root[data-pixel-theme="town"] {
-  /* Surface / Background */
-  --px-bg-base: #c8a878;
-  --px-bg-panel: #f0e0c0;
-  --px-bg-panel-alt: #e8d8b0;
-  --px-bg-inset: #d8c8a0;
+	/* Surface / Background */
+	--px-bg-base: #c8a878;
+	--px-bg-panel: #f0e0c0;
+	--px-bg-panel-alt: #e8d8b0;
+	--px-bg-inset: #d8c8a0;
 
-  /* Borders */
-  --px-border-outer: #302820;
-  --px-border-mid: #785830;
-  --px-border-inner: #f0e8d0;
-  --px-border-shadow: #483818;
+	/* Borders */
+	--px-border-outer: #302820;
+	--px-border-mid: #785830;
+	--px-border-inner: #f0e8d0;
+	--px-border-shadow: #483818;
 
-  /* Text */
-  --px-text-primary: #302018;
-  --px-text-secondary: #685040;
-  --px-text-accent: #b83020;
-  --px-text-disabled: #a89878;
+	/* Text */
+	--px-text-primary: #302018;
+	--px-text-secondary: #685040;
+	--px-text-accent: #b83020;
+	--px-text-disabled: #a89878;
 
-  /* Interactive */
-  --px-btn-bg: #b86828;
-  --px-btn-bg-hover: #c87838;
-  --px-btn-bg-active: #a85818;
-  --px-btn-text: #f8f0e0;
+	/* Interactive */
+	--px-btn-bg: #b86828;
+	--px-btn-bg-hover: #c87838;
+	--px-btn-bg-active: #a85818;
+	--px-btn-text: #f8f0e0;
 
-  /* Status */
-  --px-status-hp: #58a848;
-  --px-status-mp: #5078c0;
-  --px-status-warning: #d89820;
-  --px-status-info: #78a8c8;
+	/* Status */
+	--px-status-hp: #58a848;
+	--px-status-mp: #5078c0;
+	--px-status-warning: #d89820;
+	--px-status-info: #78a8c8;
 
-  /* Accent */
-  --px-accent: #d89820;
-  --px-accent-glow: #f8d858;
+	/* Accent */
+	--px-accent: #d89820;
+	--px-accent-glow: #f8d858;
 }

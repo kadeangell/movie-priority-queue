@@ -2,151 +2,159 @@
 /* GBA-style multi-layer box-shadow borders with no blur */
 
 .pixel-border {
-  border: none;
-  outline: none;
-  box-shadow:
-    /* Inner highlight (top-left light) */
-    inset 2px 2px 0 0 var(--px-border-inner),
-    /* Inner shadow (bottom-right dark) */
-    inset -2px -2px 0 0 var(--px-border-shadow),
-    /* Outer border — 3px solid edge */
-    -3px 0 0 0 var(--px-border-outer),
-    3px 0 0 0 var(--px-border-outer),
-    0 -3px 0 0 var(--px-border-outer),
-    0 3px 0 0 var(--px-border-outer),
-    -3px -3px 0 0 var(--px-border-outer),
-    3px -3px 0 0 var(--px-border-outer),
-    -3px 3px 0 0 var(--px-border-outer),
-    3px 3px 0 0 var(--px-border-outer),
-    /* Mid border — extends 6px */
-    -6px 0 0 0 var(--px-border-mid),
-    6px 0 0 0 var(--px-border-mid),
-    0 -6px 0 0 var(--px-border-mid),
-    0 6px 0 0 var(--px-border-mid),
-    -6px -6px 0 0 var(--px-border-mid),
-    6px -6px 0 0 var(--px-border-mid),
-    -6px 6px 0 0 var(--px-border-mid),
-    6px 6px 0 0 var(--px-border-mid);
+	border: none;
+	outline: none;
+	/* Inner highlight (top-left light) */
+	box-shadow:
+		inset 2px 2px 0 0 var(--px-border-inner),
+		/* Inner shadow (bottom-right dark) */
+		inset -2px -2px 0 0 var(--px-border-shadow),
+		/* Outer border — 3px solid edge */
+		-3px 0 0 0 var(--px-border-outer),
+		3px 0 0 0 var(--px-border-outer),
+		0 -3px 0 0 var(--px-border-outer),
+		0 3px 0 0 var(--px-border-outer),
+		-3px -3px 0 0 var(--px-border-outer),
+		3px -3px 0 0 var(--px-border-outer),
+		-3px 3px 0 0 var(--px-border-outer),
+		3px 3px 0 0 var(--px-border-outer),
+		/* Mid border — extends 6px */
+		-6px 0 0 0 var(--px-border-mid),
+		6px 0 0 0 var(--px-border-mid),
+		0 -6px 0 0 var(--px-border-mid),
+		0 6px 0 0 var(--px-border-mid),
+		-6px -6px 0 0 var(--px-border-mid),
+		6px -6px 0 0 var(--px-border-mid),
+		-6px 6px 0 0 var(--px-border-mid),
+		6px 6px 0 0 var(--px-border-mid);
 }
 
 .pixel-border-sm {
-  border: none;
-  outline: none;
-  box-shadow:
-    /* Inner highlight */
-    inset 1px 1px 0 0 var(--px-border-inner),
-    /* Inner shadow */
-    inset -1px -1px 0 0 var(--px-border-shadow),
-    /* Outer border — 2px */
-    -2px 0 0 0 var(--px-border-outer),
-    2px 0 0 0 var(--px-border-outer),
-    0 -2px 0 0 var(--px-border-outer),
-    0 2px 0 0 var(--px-border-outer),
-    -2px -2px 0 0 var(--px-border-outer),
-    2px -2px 0 0 var(--px-border-outer),
-    -2px 2px 0 0 var(--px-border-outer),
-    2px 2px 0 0 var(--px-border-outer);
+	border: none;
+	outline: none;
+	/* Inner highlight */
+	box-shadow:
+		inset 1px 1px 0 0 var(--px-border-inner),
+		/* Inner shadow */
+		inset -1px -1px 0 0 var(--px-border-shadow),
+		/* Outer border — 2px */
+		-2px 0 0 0 var(--px-border-outer),
+		2px 0 0 0 var(--px-border-outer),
+		0 -2px 0 0 var(--px-border-outer),
+		0 2px 0 0 var(--px-border-outer),
+		-2px -2px 0 0 var(--px-border-outer),
+		2px -2px 0 0 var(--px-border-outer),
+		-2px 2px 0 0 var(--px-border-outer),
+		2px 2px 0 0 var(--px-border-outer);
 }
 
 /* ─── Scanline overlay for dialog backdrops ─── */
 
 .pixel-scanlines::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: repeating-linear-gradient(
-    0deg,
-    transparent,
-    transparent 2px,
-    rgba(0, 0, 0, 0.06) 2px,
-    rgba(0, 0, 0, 0.06) 4px
-  );
-  z-index: 1;
+	content: "";
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+	background: repeating-linear-gradient(
+		0deg,
+		transparent,
+		transparent 2px,
+		rgba(0, 0, 0, 0.06) 2px,
+		rgba(0, 0, 0, 0.06) 4px
+	);
+	z-index: 1;
 }
 
 /* ─── Dialog open/close animations ─── */
 
 @keyframes pixel-dialog-in {
-  0% {
-    opacity: 0;
-    transform: scale(0.4) translateY(12px);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1.04) translateY(-2px);
-  }
-  75% {
-    transform: scale(0.98) translateY(1px);
-  }
-  100% {
-    transform: scale(1) translateY(0);
-  }
+	0% {
+		opacity: 0;
+		transform: scale(0.4) translateY(12px);
+	}
+	50% {
+		opacity: 1;
+		transform: scale(1.04) translateY(-2px);
+	}
+	75% {
+		transform: scale(0.98) translateY(1px);
+	}
+	100% {
+		transform: scale(1) translateY(0);
+	}
 }
 
 @keyframes pixel-dialog-out {
-  0% {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-  }
-  100% {
-    opacity: 0;
-    transform: scale(0.85) translateY(8px);
-  }
+	0% {
+		opacity: 1;
+		transform: scale(1) translateY(0);
+	}
+	100% {
+		opacity: 0;
+		transform: scale(0.85) translateY(8px);
+	}
 }
 
 @keyframes pixel-overlay-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
 }
 
 @keyframes pixel-overlay-out {
-  from { opacity: 1; }
-  to { opacity: 0; }
+	from {
+		opacity: 1;
+	}
+	to {
+		opacity: 0;
+	}
 }
 
 /* ─── Spring animation override for pixel panels ─── */
 
 .pixel-border[data-state="open"],
 .pixel-border-sm[data-state="open"] {
-  animation-timing-function: var(--ease-pixel-spring);
+	animation-timing-function: var(--ease-pixel-spring);
 }
 
 /* ─── Pixel font anti-aliasing override ─── */
 
 .font-pixel {
-  -webkit-font-smoothing: none;
-  -moz-osx-font-smoothing: unset;
-  font-smooth: never;
-  text-rendering: optimizeSpeed;
-  image-rendering: pixelated;
+	-webkit-font-smoothing: none;
+	-moz-osx-font-smoothing: unset;
+	font-smooth: never;
+	text-rendering: optimizeSpeed;
+	image-rendering: pixelated;
 }
 
 /* ─── RPG cursor arrow indicator ─── */
 
 .pixel-cursor::before {
-  content: "▶";
-  position: absolute;
-  left: -1.25em;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 0.65em;
-  color: var(--px-text-accent);
-  opacity: 0;
-  transition: opacity 120ms var(--ease-pixel-spring);
+	content: "▶";
+	position: absolute;
+	left: -1.25em;
+	top: 50%;
+	transform: translateY(-50%);
+	font-size: 0.65em;
+	color: var(--px-text-accent);
+	opacity: 0;
+	transition: opacity 120ms var(--ease-pixel-spring);
 }
 
 .pixel-cursor:hover::before,
 .pixel-cursor:focus-visible::before {
-  opacity: 1;
+	opacity: 1;
 }
 
 /* ─── Pixel button press effect ─── */
 
 .pixel-press {
-  transition: transform 150ms var(--ease-pixel-spring);
+	transition: transform 150ms var(--ease-pixel-spring);
 }
 
 .pixel-press:active {
-  transform: translateY(2px);
+	transform: translateY(2px);
 }
