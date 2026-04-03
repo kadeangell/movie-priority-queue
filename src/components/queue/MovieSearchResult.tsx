@@ -8,6 +8,7 @@ interface MovieSearchResultProps {
 	onAdd: (tmdbId: number) => void;
 	isAdded: boolean;
 	isAdding: boolean;
+	index?: number;
 }
 
 export function MovieSearchResult({
@@ -15,12 +16,18 @@ export function MovieSearchResult({
 	onAdd,
 	isAdded,
 	isAdding,
+	index = 0,
 }: MovieSearchResultProps) {
 	const poster = posterUrl(movie.poster_path, "w154");
 	const year = movie.release_date?.split("-")[0] ?? "Unknown";
 
 	return (
-		<div className="flex gap-3 p-3 hover:bg-[var(--px-bg-panel-alt)] transition-colors duration-100">
+		<div
+			className="flex gap-3 p-3 hover:bg-[var(--px-bg-panel-alt)] transition-colors duration-100"
+			style={{
+				animation: `pixel-slide-up 250ms var(--ease-pixel-spring) ${index * 40}ms both`,
+			}}
+		>
 			{poster ? (
 				<img
 					src={poster}

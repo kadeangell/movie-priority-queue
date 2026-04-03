@@ -77,13 +77,14 @@ export function MovieSearchDialog({
 						</p>
 					)}
 
-					{searchResults?.results.map((movie: TmdbMovie) => (
+					{searchResults?.results.map((movie: TmdbMovie, i: number) => (
 						<MovieSearchResult
 							key={movie.id}
 							movie={movie}
 							onAdd={handleAdd}
 							isAdded={addedTmdbIds.has(movie.id)}
 							isAdding={addingId === movie.id}
+							index={i}
 						/>
 					))}
 

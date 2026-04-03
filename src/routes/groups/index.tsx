@@ -72,18 +72,22 @@ function GroupsPage() {
 				) : groups && groups.length > 0 ? (
 					<div className="flex flex-col gap-4">
 						{groups.map(
-							(g: {
-								id: string;
-								name: string;
-								invite_code: string;
-								member_count: string;
-							}) => (
+							(
+								g: {
+									id: string;
+									name: string;
+									invite_code: string;
+									member_count: string;
+								},
+								i: number,
+							) => (
 								<GroupCard
 									key={g.id}
 									id={g.id}
 									name={g.name}
 									inviteCode={g.invite_code}
 									memberCount={Number(g.member_count)}
+									index={i}
 								/>
 							),
 						)}

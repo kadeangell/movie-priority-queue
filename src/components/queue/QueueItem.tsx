@@ -28,6 +28,9 @@ export function QueueItem({
 	const style = {
 		transform: CSS.Transform.toString(transform),
 		transition,
+		animation: transform
+			? undefined
+			: `pixel-slide-down 200ms var(--ease-pixel-spring) ${index * 30}ms both`,
 	};
 
 	const { data: movie } = useQuery(tmdbQueries.details(tmdbId));

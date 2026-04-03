@@ -17,15 +17,22 @@ interface WatchedListProps {
 function WatchedItem({
 	item,
 	onUnmarkWatched,
+	index = 0,
 }: {
 	item: WatchedEntry;
 	onUnmarkWatched: (id: string) => void;
+	index?: number;
 }) {
 	const { data: movie } = useQuery(tmdbQueries.details(item.tmdb_id));
 	const poster = movie ? posterUrl(movie.poster_path, "w92") : null;
 
 	return (
-		<div className="flex items-center gap-3 p-2 opacity-70 hover:opacity-100 transition-opacity">
+		<div
+			className="flex items-center gap-3 p-2 opacity-70 hover:opacity-100 transition-opacity"
+			style={{
+				animation: `pixel-slide-up 200ms var(--ease-pixel-spring) ${index * 30}ms both`,
+			}}
+		>
 			{poster ? (
 				<img
 					src={poster}
@@ -59,11 +66,12 @@ export function WatchedList({ items, onUnmarkWatched }: WatchedListProps) {
 				Watched ({items.length})
 			</h3>
 			<div className="flex flex-col">
-				{items.map((item) => (
+				{items.map((item, i) => (
 					<WatchedItem
 						key={item.id}
 						item={item}
 						onUnmarkWatched={onUnmarkWatched}
+						index={i}
 					/>
 				))}
 			</div>
