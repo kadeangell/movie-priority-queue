@@ -1,7 +1,7 @@
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { useQuery } from "@tanstack/react-query";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { tmdbQueries } from "../../hooks/queries/tmdb";
 import { posterUrl } from "../../server/lib/tmdb-client";
 import { Button } from "../ui/button";
@@ -25,6 +25,17 @@ export function QueueItem({
 	const { attributes, listeners, setNodeRef, transform, transition } =
 		useSortable({ id });
 	const hasAnimated = useRef(false);
+	const prevIndex = useRef(index);
+	const [numberChanged, setNumberChanged] = useState(false);
+
+	useEffect(() => {
+		if (prevIndex.current !== index) {
+			prevIndex.current = index;
+			setNumberChanged(true);
+			const timer = setTimeout(() => setNumberChanged(false), 300);
+			return () => clearTimeout(timer);
+		}
+	}, [index]);
 
 	const shouldAnimate = !hasAnimated.current && !transform;
 	if (shouldAnimate) {
@@ -61,7 +72,18 @@ export function QueueItem({
 			</button>
 
 			{/* Position number */}
-			<span className="font-pixel text-[10px] text-[var(--px-text-secondary)] w-6 text-right">
+			<span
+				className="font-pixel text-[10px] w-6 text-right"
+				style={{
+					color: numberChanged
+						? "var(--px-text-accent)"
+						: "var(--px-text-secondary)",
+					animation: numberChanged
+						? "pixel-pop-in 300ms var(--ease-pixel-spring)"
+						: undefined,
+					transition: "color 300ms",
+				}}
+			>
 				{index + 1}
 			</span>
 
