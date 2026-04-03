@@ -1,9 +1,9 @@
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { useQuery } from "@tanstack/react-query";
+import { useRef } from "react";
 import { tmdbQueries } from "../../hooks/queries/tmdb";
 import { posterUrl } from "../../server/lib/tmdb-client";
-import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 
 interface QueueItemProps {
@@ -24,13 +24,19 @@ export function QueueItem({
 }: QueueItemProps) {
 	const { attributes, listeners, setNodeRef, transform, transition } =
 		useSortable({ id });
+	const hasAnimated = useRef(false);
+
+	const shouldAnimate = !hasAnimated.current && !transform;
+	if (shouldAnimate) {
+		hasAnimated.current = true;
+	}
 
 	const style = {
 		transform: CSS.Transform.toString(transform),
 		transition,
-		animation: transform
-			? undefined
-			: `pixel-slide-down 200ms var(--ease-pixel-spring) ${index * 30}ms both`,
+		animation: shouldAnimate
+			? `pixel-slide-down 200ms var(--ease-pixel-spring) ${index * 30}ms both`
+			: undefined,
 	};
 
 	const { data: movie } = useQuery(tmdbQueries.details(tmdbId));
