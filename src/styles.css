@@ -1,9 +1,16 @@
-@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Manrope:wght@400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Manrope:wght@400;500;600;700;800&family=Press+Start+2P&display=swap");
 @import "tailwindcss";
+@import "./styles/pixel-borders.css";
+@import "./styles/themes/overworld.css";
+@import "./styles/themes/dungeon.css";
+@import "./styles/themes/town.css";
+@import "./styles/themes/battle.css";
 @plugin "@tailwindcss/typography";
 
 @theme {
   --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --font-pixel: "Press Start 2P", monospace;
+  --ease-pixel-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 :root {

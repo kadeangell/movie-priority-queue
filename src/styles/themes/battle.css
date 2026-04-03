@@ -1,0 +1,37 @@
+/* Battle — FF battle menus, Pokemon battle UI, Fire Emblem combat */
+
+:root[data-pixel-theme="battle"] {
+  /* Surface / Background */
+  --px-bg-base: #101828;
+  --px-bg-panel: #182038;
+  --px-bg-panel-alt: #202848;
+  --px-bg-inset: #081018;
+
+  /* Borders (inverted — bright outer edge on dark bg) */
+  --px-border-outer: #f0e8d8;
+  --px-border-mid: #b0a890;
+  --px-border-inner: #f8f0e0;
+  --px-border-shadow: #080810;
+
+  /* Text */
+  --px-text-primary: #f0e8d8;
+  --px-text-secondary: #a0a0b8;
+  --px-text-accent: #f83838;
+  --px-text-disabled: #505068;
+
+  /* Interactive */
+  --px-btn-bg: #c83030;
+  --px-btn-bg-hover: #e04040;
+  --px-btn-bg-active: #a82828;
+  --px-btn-text: #f8f0e0;
+
+  /* Status */
+  --px-status-hp: #30b830;
+  --px-status-mp: #3878e8;
+  --px-status-warning: #e8b828;
+  --px-status-info: #58a8e0;
+
+  /* Accent */
+  --px-accent: #f83838;
+  --px-accent-glow: #f87070;
+}
