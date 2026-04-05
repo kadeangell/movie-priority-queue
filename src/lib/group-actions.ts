@@ -68,4 +68,4 @@ export class ServerFnDispatcher implements GroupActionDispatcher {
 	}
 }
 
-export const dispatcher = new ServerFnDispatcher();
+export const serverFnDispatcher = new ServerFnDispatcher();
