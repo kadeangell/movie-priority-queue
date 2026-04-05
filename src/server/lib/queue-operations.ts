@@ -55,10 +55,7 @@ export async function executeAddMovie(
 	return item;
 }
 
-export async function executeRemoveMovie(
-	groupId: string,
-	queueItemId: string,
-) {
+export async function executeRemoveMovie(groupId: string, queueItemId: string) {
 	await sql`
 		DELETE FROM queue_items
 		WHERE id = ${queueItemId} AND group_id = ${groupId}

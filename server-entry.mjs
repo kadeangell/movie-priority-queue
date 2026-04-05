@@ -1,6 +1,8 @@
 import { createServer } from "node:http";
 import { Readable } from "node:stream";
 import sirv from "sirv";
+import { WebSocketServer } from "ws";
+import { handleUpgrade, setupHeartbeat } from "./src/server/lib/ws-handler.ts";
 
 const port = parseInt(process.env.PORT || "3000", 10);
 
@@ -82,6 +84,19 @@ const httpServer = createServer((req, res) => {
 	// Try static files first, fall through to SSR
 	serveStatic(req, res, () => handleSSR(req, res));
 });
+
+// WebSocket server (noServer mode — manual upgrade)
+const wss = new WebSocketServer({ noServer: true });
+
+httpServer.on("upgrade", (req, socket, head) => {
+	if (req.url?.startsWith("/ws")) {
+		handleUpgrade(wss, req, socket, head);
+	} else {
+		socket.destroy();
+	}
+});
+
+setupHeartbeat(wss);
 
 httpServer.listen(port, "0.0.0.0", () => {
 	console.log(`Server listening on http://0.0.0.0:${port}`);
