@@ -4,7 +4,7 @@ services:
     runtime: node
     plan: free
     buildCommand: pnpm install --frozen-lockfile && pnpm build
-    startCommand: npx tsx server-entry.mjs
+    startCommand: node --import tsx/esm server-entry.mjs
     nodeVersion: "22"
     healthCheckPath: /
     envVars:
