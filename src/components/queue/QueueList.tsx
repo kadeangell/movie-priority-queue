@@ -12,6 +12,7 @@ import {
 	sortableKeyboardCoordinates,
 	verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
+import type { ContentType } from "../../lib/content-type";
 import { QueueItem } from "./QueueItem";
 
 interface QueueEntry {
@@ -22,6 +23,7 @@ interface QueueEntry {
 
 interface QueueListProps {
 	items: QueueEntry[];
+	contentType: ContentType;
 	onReorder: (itemId: string, newPosition: number) => void;
 	onMarkWatched: (itemId: string) => void;
 	onRemove: (itemId: string) => void;
@@ -29,6 +31,7 @@ interface QueueListProps {
 
 export function QueueList({
 	items,
+	contentType,
 	onReorder,
 	onMarkWatched,
 	onRemove,
@@ -79,7 +82,7 @@ export function QueueList({
 					Queue is empty
 				</p>
 				<p className="font-pixel text-[8px] text-[var(--px-text-disabled)] mt-1">
-					Add movies to get started
+					Add {contentType === "movie" ? "movies" : "TV shows"} to get started
 				</p>
 			</div>
 		);
@@ -101,6 +104,7 @@ export function QueueList({
 							key={item.id}
 							id={item.id}
 							tmdbId={item.tmdb_id}
+							contentType={contentType}
 							position={item.position}
 							index={index}
 							onMarkWatched={onMarkWatched}

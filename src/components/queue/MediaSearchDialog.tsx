@@ -1,7 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { tmdbQueries } from "../../hooks/queries/tmdb";
-import type { TmdbMovie } from "../../server/functions/tmdb";
+import type { ContentType } from "../../lib/content-type";
+import type { MediaItem } from "../../server/functions/tmdb";
 import { Button } from "../ui/button";
 import {
 	Dialog,
@@ -10,23 +11,24 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from "../ui/dialog";
-import { MovieSearchResult } from "./MovieSearchResult";
+import { MediaSearchResult } from "./MediaSearchResult";
 
-interface MovieSearchDialogProps {
-	onAddMovie: (tmdbId: number) => Promise<void>;
+interface MediaSearchDialogProps {
+	contentType: ContentType;
+	onAdd: (tmdbId: number) => Promise<void>;
 	addedTmdbIds: Set<number>;
 }
 
-export function MovieSearchDialog({
-	onAddMovie,
+export function MediaSearchDialog({
+	contentType,
+	onAdd,
 	addedTmdbIds,
-}: MovieSearchDialogProps) {
+}: MediaSearchDialogProps) {
 	const [open, setOpen] = useState(false);
 	const [query, setQuery] = useState("");
 	const [debouncedQuery, setDebouncedQuery] = useState("");
 	const [addingId, setAddingId] = useState<number | null>(null);
 
-	// Simple debounce via timeout
 	const [debounceTimer, setDebounceTimer] = useState<ReturnType<
 		typeof setTimeout
 	> | null>(null);
@@ -39,33 +41,35 @@ export function MovieSearchDialog({
 	}
 
 	const { data: searchResults, isLoading } = useQuery(
-		tmdbQueries.search(debouncedQuery),
+		tmdbQueries.search(debouncedQuery, contentType),
 	);
 
 	async function handleAdd(tmdbId: number) {
 		setAddingId(tmdbId);
 		try {
-			await onAddMovie(tmdbId);
+			await onAdd(tmdbId);
 		} finally {
 			setAddingId(null);
 		}
 	}
 
+	const label = contentType === "movie" ? "Movie" : "TV Show";
+
 	return (
 		<Dialog open={open} onOpenChange={setOpen}>
 			<DialogTrigger asChild>
-				<Button variant="primary">Add Movie</Button>
+				<Button variant="primary">Add {label}</Button>
 			</DialogTrigger>
 			<DialogContent className="max-h-[80vh] flex flex-col">
 				<DialogHeader>
-					<DialogTitle>Search Movies</DialogTitle>
+					<DialogTitle>Search {label}s</DialogTitle>
 				</DialogHeader>
 
 				<input
 					type="text"
 					value={query}
 					onChange={(e) => handleQueryChange(e.target.value)}
-					placeholder="Search for a movie..."
+					placeholder={`Search for a ${label.toLowerCase()}...`}
 					className="pixel-border-sm font-pixel text-[11px] bg-[var(--px-bg-inset)] text-[var(--px-text-primary)] px-4 py-3 outline-none placeholder:text-[var(--px-text-disabled)] mb-3"
 					autoFocus
 				/>
@@ -77,20 +81,20 @@ export function MovieSearchDialog({
 						</p>
 					)}
 
-					{searchResults?.results.map((movie: TmdbMovie, i: number) => (
-						<MovieSearchResult
-							key={movie.id}
-							movie={movie}
+					{searchResults?.items.map((item: MediaItem, i: number) => (
+						<MediaSearchResult
+							key={item.id}
+							item={item}
 							onAdd={handleAdd}
-							isAdded={addedTmdbIds.has(movie.id)}
-							isAdding={addingId === movie.id}
+							isAdded={addedTmdbIds.has(item.id)}
+							isAdding={addingId === item.id}
 							index={i}
 						/>
 					))}
 
-					{searchResults && searchResults.results.length === 0 && (
+					{searchResults && searchResults.items.length === 0 && (
 						<p className="font-pixel text-[9px] text-[var(--px-text-secondary)] text-center py-4">
-							No movies found
+							No {label.toLowerCase()}s found
 						</p>
 					)}
 

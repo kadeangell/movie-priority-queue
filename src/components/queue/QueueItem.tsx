@@ -3,12 +3,14 @@ import { CSS } from "@dnd-kit/utilities";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
 import { tmdbQueries } from "../../hooks/queries/tmdb";
+import type { ContentType } from "../../lib/content-type";
 import { posterUrl } from "../../server/lib/tmdb-client";
 import { Button } from "../ui/button";
 
 interface QueueItemProps {
 	id: string;
 	tmdbId: number;
+	contentType: ContentType;
 	position: number;
 	index: number;
 	onMarkWatched: (id: string) => void;
@@ -18,6 +20,7 @@ interface QueueItemProps {
 export function QueueItem({
 	id,
 	tmdbId,
+	contentType,
 	index,
 	onMarkWatched,
 	onRemove,
@@ -50,10 +53,10 @@ export function QueueItem({
 			: undefined,
 	};
 
-	const { data: movie } = useQuery(tmdbQueries.details(tmdbId));
+	const { data: media } = useQuery(tmdbQueries.details(tmdbId, contentType));
 
-	const poster = movie ? posterUrl(movie.poster_path, "w92") : null;
-	const year = movie?.release_date?.split("-")[0] ?? "";
+	const poster = media ? posterUrl(media.posterPath, "w92") : null;
+	const year = media?.releaseDate?.split("-")[0] ?? "";
 
 	return (
 		<div
@@ -91,7 +94,7 @@ export function QueueItem({
 			{poster ? (
 				<img
 					src={poster}
-					alt={movie?.title ?? ""}
+					alt={media?.title ?? ""}
 					className="w-8 h-12 object-cover flex-shrink-0"
 					style={{ imageRendering: "auto" }}
 				/>
@@ -102,7 +105,7 @@ export function QueueItem({
 			{/* Title + meta */}
 			<div className="flex-1 min-w-0">
 				<p className="font-pixel text-[10px] text-[var(--px-text-primary)] truncate">
-					{movie?.title ?? "Loading..."}
+					{media?.title ?? "Loading..."}
 				</p>
 				{year && (
 					<span className="font-pixel text-[7px] text-[var(--px-text-disabled)]">

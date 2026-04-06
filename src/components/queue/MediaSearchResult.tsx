@@ -1,25 +1,25 @@
-import type { TmdbMovie } from "../../server/functions/tmdb";
+import type { MediaItem } from "../../server/functions/tmdb";
 import { posterUrl } from "../../server/lib/tmdb-client";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 
-interface MovieSearchResultProps {
-	movie: TmdbMovie;
+interface MediaSearchResultProps {
+	item: MediaItem;
 	onAdd: (tmdbId: number) => void;
 	isAdded: boolean;
 	isAdding: boolean;
 	index?: number;
 }
 
-export function MovieSearchResult({
-	movie,
+export function MediaSearchResult({
+	item,
 	onAdd,
 	isAdded,
 	isAdding,
 	index = 0,
-}: MovieSearchResultProps) {
-	const poster = posterUrl(movie.poster_path, "w154");
-	const year = movie.release_date?.split("-")[0] ?? "Unknown";
+}: MediaSearchResultProps) {
+	const poster = posterUrl(item.posterPath, "w154");
+	const year = item.releaseDate?.split("-")[0] ?? "Unknown";
 
 	return (
 		<div
@@ -31,7 +31,7 @@ export function MovieSearchResult({
 			{poster ? (
 				<img
 					src={poster}
-					alt={movie.title}
+					alt={item.title}
 					className="w-12 h-18 object-cover flex-shrink-0"
 					style={{ imageRendering: "auto" }}
 				/>
@@ -44,12 +44,12 @@ export function MovieSearchResult({
 			)}
 			<div className="flex-1 min-w-0">
 				<p className="font-pixel text-[10px] text-[var(--px-text-primary)] truncate">
-					{movie.title}
+					{item.title}
 				</p>
 				<div className="flex gap-2 mt-1">
 					<Badge variant="info">{year}</Badge>
-					{movie.vote_average > 0 && (
-						<Badge variant="warning">{movie.vote_average.toFixed(1)}</Badge>
+					{item.voteAverage > 0 && (
+						<Badge variant="warning">{item.voteAverage.toFixed(1)}</Badge>
 					)}
 				</div>
 			</div>
@@ -57,7 +57,7 @@ export function MovieSearchResult({
 				variant={isAdded ? "default" : "primary"}
 				size="sm"
 				disabled={isAdded || isAdding}
-				onClick={() => onAdd(movie.id)}
+				onClick={() => onAdd(item.id)}
 			>
 				{isAdded ? "Added" : isAdding ? "..." : "Add"}
 			</Button>

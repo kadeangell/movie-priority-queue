@@ -1,6 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
-import type { ContentType } from "../../lib/content-type";
 import { cacheGet, cacheSet } from "../lib/tmdb-cache";
 import { tmdbFetch } from "../lib/tmdb-client";
 
