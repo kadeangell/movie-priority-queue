@@ -12,6 +12,7 @@ import { sql } from "../db/index";
 import type { SessionData } from "../lib/session";
 import { sessionConfig } from "../lib/session";
 import { consumeChallenge, rpConfig, storeChallenge } from "../lib/webauthn";
+import { authMiddleware } from "../middleware/auth";
 
 // ─── Registration ───
 
@@ -209,8 +210,32 @@ export const getMe = createServerFn({ method: "GET" }).handler(async () => {
 		return null;
 	}
 
-	return { userId, username };
+	const [user] = await sql`
+		SELECT (settings).theme FROM users WHERE id = ${userId}
+	`;
+
+	return {
+		userId,
+		username,
+		theme: (user?.theme as string) ?? "overworld",
+	};
 });
+
+export const updateSettings = createServerFn({ method: "POST" })
+	.middleware([authMiddleware])
+	.inputValidator(
+		z.object({
+			theme: z.enum(["overworld", "dungeon", "town", "battle"]),
+		}),
+	)
+	.handler(async ({ data, context }) => {
+		await sql`
+			UPDATE users
+			SET settings = ROW(${data.theme}::pixel_theme)::user_settings
+			WHERE id = ${context.user.userId}
+		`;
+		return { success: true };
+	});
 
 export const logout = createServerFn({ method: "POST" }).handler(async () => {
 	await clearSession(sessionConfig);

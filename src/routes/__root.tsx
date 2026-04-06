@@ -6,6 +6,7 @@ import {
 	Scripts,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
+import { ThemeSync } from "../components/ThemeSync";
 import { PixelThemeProvider } from "../components/ui/pixel-theme-provider";
 import { TooltipProvider } from "../components/ui/tooltip";
 import TanStackQueryDevtools from "../integrations/tanstack-query/devtools";
@@ -38,7 +39,10 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 			</head>
 			<body>
 				<PixelThemeProvider>
-					<TooltipProvider delayDuration={150}>{children}</TooltipProvider>
+					<TooltipProvider delayDuration={150}>
+						<ThemeSync />
+						{children}
+					</TooltipProvider>
 				</PixelThemeProvider>
 				<TanStackDevtools
 					config={{ position: "bottom-right" }}

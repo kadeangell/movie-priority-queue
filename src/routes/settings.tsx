@@ -1,9 +1,11 @@
+import { useQueryClient } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { PixelLink } from "../components/ui/link";
 import {
 	type PixelTheme,
 	usePixelTheme,
 } from "../components/ui/pixel-theme-provider";
+import { updateSettings } from "../server/functions/auth";
 
 export const Route = createFileRoute("/settings")({
 	component: SettingsPage,
@@ -34,6 +36,16 @@ const THEMES: { id: PixelTheme; name: string; description: string }[] = [
 
 function SettingsPage() {
 	const { theme, setTheme } = usePixelTheme();
+	const queryClient = useQueryClient();
+
+	async function handleThemeChange(newTheme: PixelTheme) {
+		// Instant local update
+		setTheme(newTheme);
+		// Persist to server
+		await updateSettings({ data: { theme: newTheme } });
+		// Refresh auth so getMe returns the updated theme
+		await queryClient.invalidateQueries({ queryKey: ["auth"] });
+	}
 
 	return (
 		<div
@@ -59,7 +71,7 @@ function SettingsPage() {
 							<button
 								key={t.id}
 								type="button"
-								onClick={() => setTheme(t.id)}
+								onClick={() => handleThemeChange(t.id)}
 								className="pixel-cursor relative text-left px-4 py-3 cursor-pointer transition-colors duration-150 ease-pixel-spring"
 								style={{
 									backgroundColor:
