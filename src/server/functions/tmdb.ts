@@ -196,9 +196,7 @@ export const getMediaDetails = createServerFn({ method: "GET" })
 		if (cached) return cached;
 
 		if (data.contentType === "movie") {
-			const raw = await tmdbFetch<TmdbMovieDetails>(
-				`/movie/${data.tmdbId}`,
-			);
+			const raw = await tmdbFetch<TmdbMovieDetails>(`/movie/${data.tmdbId}`);
 			const result = normalizeMovieDetails(raw);
 			cacheSet(cacheKey, result, ONE_HOUR);
 			return result;

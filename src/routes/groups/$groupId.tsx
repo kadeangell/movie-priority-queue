@@ -132,14 +132,14 @@ function GroupDetailPage() {
 				</section>
 
 				{/* Watched */}
-        {watchedItems.length > 0 && (
-          <section className="pixel-border bg-[var(--px-bg-panel)] p-5 m-[6px]">
-            <WatchedList
-              items={watchedItems}
-              onUnmarkWatched={actions.unmarkWatched}
-            />
-          </section>
-        )}
+				{watchedItems.length > 0 && (
+					<section className="pixel-border bg-[var(--px-bg-panel)] p-5 m-[6px]">
+						<WatchedList
+							items={watchedItems}
+							onUnmarkWatched={actions.unmarkWatched}
+						/>
+					</section>
+				)}
 			</div>
 		</div>
 	);

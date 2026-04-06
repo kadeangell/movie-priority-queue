@@ -1,15 +1,15 @@
 import {
-	addMovie,
+	addItem,
 	markWatched,
-	removeMovie,
-	reorderMovie,
+	removeItem,
+	reorderItem,
 	unmarkWatched,
 } from "../server/functions/queue";
 
 export type GroupActionType =
-	| "ADD_MOVIE"
-	| "REMOVE_MOVIE"
-	| "REORDER_MOVIE"
+	| "ADD_ITEM"
+	| "REMOVE_ITEM"
+	| "REORDER_ITEM"
 	| "MARK_WATCHED"
 	| "UNMARK_WATCHED";
 
@@ -23,31 +23,31 @@ export interface GroupActionDispatcher {
 	dispatch(action: GroupAction): Promise<unknown>;
 }
 
-// Current implementation: direct server function calls
-// Future: swap to WebSocketDispatcher for real-time
 export class ServerFnDispatcher implements GroupActionDispatcher {
 	async dispatch(action: GroupAction): Promise<unknown> {
 		switch (action.type) {
-			case "ADD_MOVIE":
-				return addMovie({
+			case "ADD_ITEM":
+				return addItem({
 					data: {
 						groupId: action.groupId,
 						tmdbId: action.payload.tmdbId as number,
+						contentType: action.payload.contentType as "movie" | "tv",
 					},
 				});
-			case "REMOVE_MOVIE":
-				return removeMovie({
+			case "REMOVE_ITEM":
+				return removeItem({
 					data: {
 						groupId: action.groupId,
 						queueItemId: action.payload.queueItemId as string,
 					},
 				});
-			case "REORDER_MOVIE":
-				return reorderMovie({
+			case "REORDER_ITEM":
+				return reorderItem({
 					data: {
 						groupId: action.groupId,
 						queueItemId: action.payload.queueItemId as string,
 						newPosition: action.payload.newPosition as number,
+						contentType: action.payload.contentType as "movie" | "tv",
 					},
 				});
 			case "MARK_WATCHED":
@@ -62,6 +62,7 @@ export class ServerFnDispatcher implements GroupActionDispatcher {
 					data: {
 						groupId: action.groupId,
 						queueItemId: action.payload.queueItemId as string,
+						contentType: action.payload.contentType as "movie" | "tv",
 					},
 				});
 		}

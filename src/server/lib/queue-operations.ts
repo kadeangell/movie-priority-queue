@@ -1,3 +1,4 @@
+import type { ContentType } from "../../lib/content-type";
 import { sql } from "../db/index";
 
 export async function validateMembership(
@@ -11,51 +12,55 @@ export async function validateMembership(
 	if (!row) throw new Error("Not a member of this group");
 }
 
-export async function fetchQueueItems(groupId: string) {
+export async function fetchQueueItems(
+	groupId: string,
+	contentType: ContentType,
+) {
 	const queue = await sql`
 		SELECT id, group_id, tmdb_id, added_by, position, created_at
 		FROM queue_items
-		WHERE group_id = ${groupId} AND is_watched = false
+		WHERE group_id = ${groupId} AND content_type = ${contentType} AND is_watched = false
 		ORDER BY position ASC
 	`;
 
 	const watched = await sql`
 		SELECT id, group_id, tmdb_id, added_by, watched_at, watched_by, created_at
 		FROM queue_items
-		WHERE group_id = ${groupId} AND is_watched = true
+		WHERE group_id = ${groupId} AND content_type = ${contentType} AND is_watched = true
 		ORDER BY watched_at DESC
 	`;
 
 	return { queue, watched };
 }
 
-export async function executeAddMovie(
+export async function executeAddItem(
 	groupId: string,
 	tmdbId: number,
 	userId: string,
+	contentType: ContentType,
 ) {
 	const [maxRow] = await sql`
 		SELECT COALESCE(MAX(position), 0) AS max_pos
 		FROM queue_items
-		WHERE group_id = ${groupId} AND is_watched = false
+		WHERE group_id = ${groupId} AND content_type = ${contentType} AND is_watched = false
 	`;
 	const newPosition = Number(maxRow.max_pos) + 1000;
 
 	const [item] = await sql`
-		INSERT INTO queue_items (group_id, tmdb_id, added_by, position)
-		VALUES (${groupId}, ${tmdbId}, ${userId}, ${newPosition})
-		ON CONFLICT (group_id, tmdb_id) DO NOTHING
-		RETURNING id, group_id, tmdb_id, added_by, position, created_at
+		INSERT INTO queue_items (group_id, tmdb_id, added_by, position, content_type)
+		VALUES (${groupId}, ${tmdbId}, ${userId}, ${newPosition}, ${contentType})
+		ON CONFLICT (group_id, tmdb_id, content_type) DO NOTHING
+		RETURNING id, group_id, tmdb_id, added_by, position, content_type, created_at
 	`;
 
 	if (!item) {
-		throw new Error("Movie already in queue");
+		throw new Error("Already in queue");
 	}
 
 	return item;
 }
 
-export async function executeRemoveMovie(groupId: string, queueItemId: string) {
+export async function executeRemoveItem(groupId: string, queueItemId: string) {
 	await sql`
 		DELETE FROM queue_items
 		WHERE id = ${queueItemId} AND group_id = ${groupId}
@@ -63,10 +68,11 @@ export async function executeRemoveMovie(groupId: string, queueItemId: string) {
 	return { success: true as const };
 }
 
-export async function executeReorderMovie(
+export async function executeReorderItem(
 	groupId: string,
 	queueItemId: string,
 	newPosition: number,
+	contentType: ContentType,
 ) {
 	await sql`
 		UPDATE queue_items
@@ -74,10 +80,10 @@ export async function executeReorderMovie(
 		WHERE id = ${queueItemId} AND group_id = ${groupId}
 	`;
 
-	// Check if reindex is needed
+	// Check if reindex is needed within this content type's queue
 	const items = await sql`
 		SELECT id, position FROM queue_items
-		WHERE group_id = ${groupId} AND is_watched = false
+		WHERE group_id = ${groupId} AND content_type = ${contentType} AND is_watched = false
 		ORDER BY position ASC
 	`;
 
@@ -118,11 +124,12 @@ export async function executeMarkWatched(
 export async function executeUnmarkWatched(
 	groupId: string,
 	queueItemId: string,
+	contentType: ContentType,
 ) {
 	const [maxRow] = await sql`
 		SELECT COALESCE(MAX(position), 0) AS max_pos
 		FROM queue_items
-		WHERE group_id = ${groupId} AND is_watched = false
+		WHERE group_id = ${groupId} AND content_type = ${contentType} AND is_watched = false
 	`;
 	const newPosition = Number(maxRow.max_pos) + 1000;
 

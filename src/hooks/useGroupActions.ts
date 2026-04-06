@@ -1,5 +1,6 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { useCallback, useMemo } from "react";
+import type { ContentType } from "../lib/content-type";
 import type { GroupActionDispatcher } from "../lib/group-actions";
 import { serverFnDispatcher } from "../lib/group-actions";
 import { useGroupWebSocket } from "./useGroupWebSocket";
@@ -14,74 +15,81 @@ export function useGroupActions(groupId: string) {
 	);
 
 	const invalidateQueue = useCallback(
-		() => queryClient.invalidateQueries({ queryKey: ["queue", groupId] }),
+		(contentType: ContentType) =>
+			queryClient.invalidateQueries({
+				queryKey: ["queue", groupId, contentType],
+			}),
 		[queryClient, groupId],
 	);
 
-	const addMovie = useCallback(
-		async (tmdbId: number) => {
+	const addItem = useCallback(
+		async (tmdbId: number, contentType: ContentType) => {
 			await activeDispatcher.dispatch({
-				type: "ADD_MOVIE",
+				type: "ADD_ITEM",
 				groupId,
-				payload: { tmdbId },
+				payload: { tmdbId, contentType },
 			});
-			await invalidateQueue();
+			await invalidateQueue(contentType);
 		},
 		[groupId, invalidateQueue, activeDispatcher],
 	);
 
-	const removeMovie = useCallback(
-		async (queueItemId: string) => {
+	const removeItem = useCallback(
+		async (queueItemId: string, contentType: ContentType) => {
 			await activeDispatcher.dispatch({
-				type: "REMOVE_MOVIE",
+				type: "REMOVE_ITEM",
 				groupId,
-				payload: { queueItemId },
+				payload: { queueItemId, contentType },
 			});
-			await invalidateQueue();
+			await invalidateQueue(contentType);
 		},
 		[groupId, invalidateQueue, activeDispatcher],
 	);
 
-	const reorderMovie = useCallback(
-		async (queueItemId: string, newPosition: number) => {
+	const reorderItem = useCallback(
+		async (
+			queueItemId: string,
+			newPosition: number,
+			contentType: ContentType,
+		) => {
 			await activeDispatcher.dispatch({
-				type: "REORDER_MOVIE",
+				type: "REORDER_ITEM",
 				groupId,
-				payload: { queueItemId, newPosition },
+				payload: { queueItemId, newPosition, contentType },
 			});
-			await invalidateQueue();
+			await invalidateQueue(contentType);
 		},
 		[groupId, invalidateQueue, activeDispatcher],
 	);
 
 	const markWatched = useCallback(
-		async (queueItemId: string) => {
+		async (queueItemId: string, contentType: ContentType) => {
 			await activeDispatcher.dispatch({
 				type: "MARK_WATCHED",
 				groupId,
 				payload: { queueItemId },
 			});
-			await invalidateQueue();
+			await invalidateQueue(contentType);
 		},
 		[groupId, invalidateQueue, activeDispatcher],
 	);
 
 	const unmarkWatched = useCallback(
-		async (queueItemId: string) => {
+		async (queueItemId: string, contentType: ContentType) => {
 			await activeDispatcher.dispatch({
 				type: "UNMARK_WATCHED",
 				groupId,
-				payload: { queueItemId },
+				payload: { queueItemId, contentType },
 			});
-			await invalidateQueue();
+			await invalidateQueue(contentType);
 		},
 		[groupId, invalidateQueue, activeDispatcher],
 	);
 
 	return {
-		addMovie,
-		removeMovie,
-		reorderMovie,
+		addItem,
+		removeItem,
+		reorderItem,
 		markWatched,
 		unmarkWatched,
 		isRealtime: isConnected,

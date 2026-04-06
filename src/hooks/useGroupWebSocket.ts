@@ -59,12 +59,21 @@ export function useGroupWebSocket(groupId: string) {
 				case "mutation:error":
 					dispatcherRef.current?.handleError(msg);
 					break;
-				case "mutation:broadcast":
-					// Another user mutated the queue — invalidate our cache
-					queryClient.invalidateQueries({
-						queryKey: ["queue", msg.action.groupId],
-					});
+				case "mutation:broadcast": {
+					// Another user mutated the queue — invalidate the affected content type
+					const ct = msg.action.payload.contentType;
+					if (ct === "movie" || ct === "tv") {
+						queryClient.invalidateQueries({
+							queryKey: ["queue", msg.action.groupId, ct],
+						});
+					} else {
+						// Fallback: invalidate both
+						queryClient.invalidateQueries({
+							queryKey: ["queue", msg.action.groupId],
+						});
+					}
 					break;
+				}
 				case "ping":
 					ws.send(JSON.stringify({ type: "pong" }));
 					break;

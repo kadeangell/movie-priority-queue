@@ -3,10 +3,10 @@ import type { Duplex } from "node:stream";
 import type { WebSocketServer } from "ws";
 import type { ClientMessage } from "../../lib/ws-protocol";
 import {
-	executeAddMovie,
+	executeAddItem,
 	executeMarkWatched,
-	executeRemoveMovie,
-	executeReorderMovie,
+	executeRemoveItem,
+	executeReorderItem,
 	executeUnmarkWatched,
 	validateMembership,
 } from "./queue-operations";
@@ -104,13 +104,15 @@ async function handleJoin(
 ): Promise<void> {
 	try {
 		await validateMembership(groupId, ws.userId);
-		// Leave any previous rooms first
 		rooms.leaveAll(ws);
 		rooms.join(groupId, ws);
 		ws.send(JSON.stringify({ type: "joined", groupId }));
 	} catch {
 		ws.send(
-			JSON.stringify({ type: "error", message: "Not a member of this group" }),
+			JSON.stringify({
+				type: "error",
+				message: "Not a member of this group",
+			}),
 		);
 	}
 }
@@ -131,10 +133,8 @@ async function handleMutation(
 			ws.userId,
 		);
 
-		// Ack to sender
 		ws.send(JSON.stringify({ type: "mutation:ack", requestId, result }));
 
-		// Broadcast to others
 		rooms.broadcast(
 			action.groupId,
 			{
@@ -163,21 +163,33 @@ async function executeMutation(
 	payload: Record<string, unknown>,
 	userId: string,
 ): Promise<unknown> {
+	const contentType = (payload.contentType as "movie" | "tv") ?? "movie";
+
 	switch (type) {
-		case "ADD_MOVIE":
-			return executeAddMovie(groupId, payload.tmdbId as number, userId);
-		case "REMOVE_MOVIE":
-			return executeRemoveMovie(groupId, payload.queueItemId as string);
-		case "REORDER_MOVIE":
-			return executeReorderMovie(
+		case "ADD_ITEM":
+			return executeAddItem(
+				groupId,
+				payload.tmdbId as number,
+				userId,
+				contentType,
+			);
+		case "REMOVE_ITEM":
+			return executeRemoveItem(groupId, payload.queueItemId as string);
+		case "REORDER_ITEM":
+			return executeReorderItem(
 				groupId,
 				payload.queueItemId as string,
 				payload.newPosition as number,
+				contentType,
 			);
 		case "MARK_WATCHED":
 			return executeMarkWatched(groupId, payload.queueItemId as string, userId);
 		case "UNMARK_WATCHED":
-			return executeUnmarkWatched(groupId, payload.queueItemId as string);
+			return executeUnmarkWatched(
+				groupId,
+				payload.queueItemId as string,
+				contentType,
+			);
 		default:
 			throw new Error(`Unknown mutation type: ${type}`);
 	}
